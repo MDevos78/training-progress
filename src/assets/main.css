@@ -1,0 +1,21 @@
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+.datePicker{
+  margin: 0 250px 200px 25px;
+  background-color: lightgrey;
+}
+.green {
+  text-decoration: none;
+  color: #ff6400;
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+}
