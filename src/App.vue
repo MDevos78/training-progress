@@ -7,9 +7,10 @@ import Record from './components/Record.vue'
 
 <template>
   <header>
-    <img alt="logo basifit" class="logo" src="src/assets/BFIT.AS_BIG.svg" width="500" height="200" />
+    <h1>Progrès Sportif</h1>
     <div class="greetings">
-      <h1 class="green">Vos Progrès</h1>
+      <h2 class="green">VOS PROGRES</h2>
+      <br>
       <h3>
         Ajoutez vos activitées du jour
       </h3>

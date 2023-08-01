@@ -20,7 +20,7 @@ import DatePicker from 'vue3-datepicker';
     label="Choisir une machine"
   ></v-select>
   
-  <v-card class="mx-auto" max-width="700" variant="outlined">
+  <v-card class="mx-auto" max-width="700" height="500" variant="outlined">
     <v-card-item>
       <div class="text-h4 mb-1">
         Machine 1
@@ -34,7 +34,7 @@ import DatePicker from 'vue3-datepicker';
 
     <v-card-actions>
       <v-btn variant="outlined">
-        Button
+        Valider
       </v-btn>
     </v-card-actions>
   </v-card>

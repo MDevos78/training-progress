@@ -5,12 +5,14 @@
   font-weight: normal;
 }
 .datePicker{
-  margin: 0 250px 200px 25px;
+  padding: 15px;
+  margin: 0 250px 25px 25px;
   background-color: lightgrey;
 }
 .green {
   text-decoration: none;
   color: #ff6400;
+  font-weight: bold;
 }
 
 @media (min-width: 1024px) {
