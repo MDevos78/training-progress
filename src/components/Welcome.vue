@@ -6,8 +6,10 @@ import DatePicker from 'vue3-datepicker';
     },
     data: () => ({
       items: ['Machine 1', 'Machine 2', 'Machine 3', 'Machine 4'],
-      value: [''],
+      machine: [''],
       selectedDate: null,
+      weight: ['18', '23', '35', '52'],
+      maxWeight: [],
     }),
   }
   
@@ -15,7 +17,7 @@ import DatePicker from 'vue3-datepicker';
 
 <template>
   <v-select
-    v-model="value"
+    v-model="machine"
     :items="items"
     label="Choisir une machine"
   ></v-select>
@@ -30,7 +32,18 @@ import DatePicker from 'vue3-datepicker';
     <div class="datePicker">
       <date-picker v-model="selectedDate"></date-picker>
     </div>
-    
+
+    <v-select
+      v-model="maxWeight"
+      :items="weight"
+      label="Poid Max"
+    ></v-select>
+
+    <v-container fluid>
+      <v-textarea
+        label="Remarque"
+      ></v-textarea>
+    </v-container>
 
     <v-card-actions>
       <v-btn variant="outlined">
