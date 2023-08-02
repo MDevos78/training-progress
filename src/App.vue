@@ -1,6 +1,5 @@
 <script setup>
-import Welcome from './components/Welcome.vue'
-import Record from './components/Record.vue'
+import { RouterLink, RouterView } from 'vue-router';
 
 
 </script>
@@ -15,10 +14,16 @@ import Record from './components/Record.vue'
         Ajoutez vos activitées du jour
       </h3>
     </div>
+    <nav>
+      <RouterLink to="/">Welcome</RouterLink><br>
+      <RouterLink to="/Record">Record</RouterLink>
+      <RouterLink to="/Connexion">Connexion</RouterLink>
+    </nav>
   </header>
-
+  <RouterView />
   <main>
-    <Welcome />
+   
+    
   </main>
 </template>
 
