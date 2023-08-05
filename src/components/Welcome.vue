@@ -16,6 +16,13 @@ import DatePicker from 'vue3-datepicker';
 </script>
 
 <template>
+  <div class="greetings">
+      <h2 class="green">VOS PROGRES</h2>
+      <br>
+      <h3>
+        Ajoutez vos activitées du jour
+      </h3>
+    </div>
   <v-select
     v-model="machine"
     :items="items"
@@ -34,6 +41,7 @@ import DatePicker from 'vue3-datepicker';
     </div>
 
     <v-select
+      class="mx-4"
       v-model="maxWeight"
       :items="weight"
       label="Poid Max"
@@ -45,7 +53,7 @@ import DatePicker from 'vue3-datepicker';
       ></v-textarea>
     </v-container>
 
-    <v-card-actions>
+    <v-card-actions class="ml-2">
       <v-btn variant="outlined">
         Valider
       </v-btn>

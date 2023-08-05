@@ -7,26 +7,48 @@ import { RouterLink, RouterView } from 'vue-router';
 <template>
   <header>
     <h1>Progrès Sportif</h1>
-    <div class="greetings">
-      <h2 class="green">VOS PROGRES</h2>
-      <br>
-      <h3>
-        Ajoutez vos activitées du jour
-      </h3>
-    </div>
+    
     <nav>
-      <RouterLink to="/">Welcome</RouterLink><br>
-      <RouterLink to="/Record">Record</RouterLink>
+      <RouterLink to="/">Welcome </RouterLink> 
+      <RouterLink to="/Record">Record </RouterLink> 
       <RouterLink to="/Connexion">Connexion</RouterLink>
     </nav>
   </header>
   <RouterView />
-  <main>
-   
-    
-  </main>
+  
 </template>
 
 <style scoped>
+header {
+  line-height: 1.5;
+  height: 20vh;
+}
+h1{
+  color: #ff6400;
+  text-align: center;
+  height: 70px;
+}
+nav {
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
+  
+}
+nav a.router-link-exact-active {
+  color: #ff6400;
+  
+}
+nav a.router-link-exact-active:hover {
+  background-color: transparent;
+}
+nav a {
+  display: inline-block;
+  padding: 2rem;
+  color: black;
+  text-decoration: none;
+}
+
+
+
 
 </style>
