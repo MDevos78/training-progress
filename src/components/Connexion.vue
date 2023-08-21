@@ -15,8 +15,8 @@
               <v-btn @click="register" color="primary">S'inscrire</v-btn>
             </v-form>
             <v-form v-else>
-              <v-text-field v-model="loginEmail" label="Email" type="email"></v-text-field>
-              <v-text-field v-model="loginPassword" label="Mot de passe" type="password"></v-text-field>
+              <v-text-field v-model="email" label="Email" type="email"></v-text-field>
+              <v-text-field v-model="password" label="Mot de passe" type="password"></v-text-field>
               <v-btn @click="login" color="primary">Se connecter</v-btn>
             </v-form>
           </v-card-text>
@@ -40,9 +40,7 @@ export default {
       firstname: "",
       lastname: "",
       email: "",
-      password: "",
-      loginEmail: "",
-      loginPassword: "",
+      password: ""
     };
   },
   methods: {
@@ -66,7 +64,10 @@ export default {
 
         const responseData = await response.json();
 
-        if (response.ok) {
+        if (responseData.message != 'User registered successfully !') {
+          alert("Utilisateur déjà enregistré, veuillez réessayer !");
+
+        } else {
           // Réinitialiser les champs d'inscription après une inscription réussie
           this.firstname = "";
           this.lastname = "";
@@ -74,35 +75,44 @@ export default {
           this.password = "";
 
           alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
-        } else {
-          // Gérer les cas où la réponse n'est pas OK (par exemple, afficher des messages d'erreur)
-          console.error('Erreur lors de l\'inscription :', responseData.message);
-          alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
         }
       } catch (error) {
-        console.error('Erreur lors de l\'inscription :', error);
-        alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
+        console.error("Erreur lors de l'inscription :", error);
+        alert("Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
       }
     },
     
     async login() {
       try {
-        // Envoyer les données de connexion au serveur (simulé ici avec un délai)
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simule une requête asynchrone
+        const response = await fetch('http://localhost:5000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password,
+          }),
+        });
 
-        // Après la connexion réussie, vous pouvez réinitialiser les champs ou effectuer d'autres actions
-        this.loginEmail = "";
-        this.loginPassword = "";
+        const res = await response.json();
+        if (res.response.ok) {
+          // Réinitialiser les champs de connexion après une connexion réussie
+          this.email = "";
+          this.password = "";
 
-        // Afficher un message de succès ou rediriger vers une autre page si nécessaire
-        alert("Connexion réussie !");
+          alert("Connexion réussie !");
+        } else {
+          // Gérer les cas où la réponse n'est pas OK (par exemple, afficher des messages d'erreur)
+          console.error('Erreur lors de la connexion :', response.statusText);
+          alert('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+        }
       } catch (error) {
-        // En cas d'erreur, vous pouvez afficher un message d'erreur ou prendre d'autres mesures
-        console.error("Erreur lors de la connexion :", error);
-        alert("Une erreur est survenue lors de la connexion. Veuillez réessayer.");
+        console.error('Erreur lors de la connexion :', error);
+        alert('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
       }
     },
   },
-};
+}
 </script>
 
