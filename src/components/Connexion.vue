@@ -1,118 +1,107 @@
 <template>
-  <v-app>
-    <v-main>
-      <v-container>
-        <v-card>
-          <v-card-title>
-            {{ isLogin ? 'Connexion' : 'Inscription' }}
-          </v-card-title>
-          <v-card-text>
-            <v-form v-if="!isLogin">
-              <v-text-field v-model="firstname" label="Prénom" required></v-text-field>
-              <v-text-field v-model="lastname" label="Nom" required></v-text-field>
-              <v-text-field v-model="email" label="Email" type='email' required></v-text-field>
-              <v-text-field v-model="password" label="Mot de passe" type="password"></v-text-field>
-              <v-btn @click="register" color="primary">S'inscrire</v-btn>
-            </v-form>
-            <v-form v-else>
-              <v-text-field v-model="email" label="Email" type="email"></v-text-field>
-              <v-text-field v-model="password" label="Mot de passe" type="password"></v-text-field>
-              <v-btn @click="login" color="primary">Se connecter</v-btn>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn @click="toggleLoginMode">
-              {{ isLogin ? "Pas encore inscrit ?" : "Déjà inscrit ?" }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-container>
-    </v-main>
-  </v-app>
+  <v-form v-on:submit.prevent="submitConnexion">
+    <v-text-field
+      v-model="username"
+      label="Nom d'utilisateur"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="password"
+      label="Mot de passe"
+      required
+      type="password"
+    ></v-text-field>
+    <v-btn color="primary" type="submit">Connexion</v-btn>
+    <v-btn text>Pas encore inscrit ?</v-btn>
+  </v-form>
+
+  <v-form v-if="!isLoggedIn" v-on:submit.prevent="submitRegister">
+    <v-text-field
+      v-model="username"
+      label="Nom d'utilisateur"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="password"
+      label="Mot de passe"
+      required
+      type="password"
+    ></v-text-field>
+    <v-text-field
+      v-model="name"
+      label="Nom"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="firstname"
+      label="Prénom"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="email"
+      label="Email"
+      required
+    ></v-text-field>
+    <v-btn color="primary" type="submit">Inscription</v-btn>
+    <v-btn text>Déjà inscrit ?</v-btn>
+  </v-form>
+
+  <v-card v-if="isLoggedIn">
+    <v-card-title>Bienvenue, {{ username }}</v-card-title>
+  </v-card>
 </template>
 
 
 <script>
+import axios from 'axios';
+//qaxios.defaults.headers.post['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
+
 export default {
   data() {
     return {
-      isLogin: true,
+      username: "",
+      password: "",
+      name: "",
       firstname: "",
-      lastname: "",
       email: "",
-      password: ""
-    };
+      isLoggedIn: false,
+    }  
   },
   methods: {
-    toggleLoginMode() {
-      this.isLogin = !this.isLogin;
-    },
-    async register() {
-      try {
-        const response = await fetch('http://localhost:5000/api/register',{
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            firstname: this.firstname,
-            lastname: this.lastname,
-            email: this.email,
-            password: this.password
-          }),
-        });
+    async submitRegister() {
+      // Code d'inscription
+      const res = await axios.post("http://localhost:5000/api/register", {
+        username: this.username,
+        password: this.password,
+        name: this.name,
+        firstname: this.firstname,
+        email: this.email,
+      });
 
-        const responseData = await response.json();
-
-        if (responseData.message != 'User registered successfully !') {
-          alert("Utilisateur déjà enregistré, veuillez réessayer !");
-
-        } else {
-          // Réinitialiser les champs d'inscription après une inscription réussie
-          this.firstname = "";
-          this.lastname = "";
-          this.email = "";
-          this.password = "";
-
-          alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
-        }
-      } catch (error) {
-        console.error("Erreur lors de l'inscription :", error);
-        alert("Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
+      console.log (res.data.message)
+      if (res.data.message != 'User registered successfully !') {
+        alert("utilisateur déjà enregistré")
+      } else {
+        alert("Inscription réussie !")
+        this.isLoggedIn = true
       }
     },
-    
-    async login() {
-      try {
-        const response = await fetch('http://localhost:5000/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.email,
-            password: this.password,
-          }),
-        });
+    async submitConnexion() {
+      // Code de connexion
+      const res = await axios.post("http://localhost:5000/api/login", {
+        username: this.username,
+        password: this.password,
+      });
 
-        const res = await response.json();
-        if (res.response.ok) {
-          // Réinitialiser les champs de connexion après une connexion réussie
-          this.email = "";
-          this.password = "";
-
-          alert("Connexion réussie !");
-        } else {
-          // Gérer les cas où la réponse n'est pas OK (par exemple, afficher des messages d'erreur)
-          console.error('Erreur lors de la connexion :', response.statusText);
-          alert('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
-        }
-      } catch (error) {
-        console.error('Erreur lors de la connexion :', error);
-        alert('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+      console.log (res.data.message)
+      if (res.data.message == 'true') {
+        alert("Connexion réussie")
+        this.isLoggedIn = true
+      } else {
+        alert("Le nom d'utilistateur ou le mot de passe est incorrecte")
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>
 

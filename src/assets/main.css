@@ -1,8 +1,14 @@
+body {
+  background-color: #78A1BB;
+}
 #app {
   max-width: 1280px;
-  margin: 0 auto;
+  margin: 1rem auto;
   padding: 2rem;
   font-weight: normal;
+  border: 2px solid #283044;
+  color: #283044;
+  border-radius: 20px;
 }
 .datePicker{
   padding: 15px;

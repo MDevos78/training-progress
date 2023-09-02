@@ -1,20 +1,3 @@
-<script>
-import DatePicker from 'vue3-datepicker';
-  export default {
-    components: {
-      DatePicker
-    },
-    data: () => ({
-      items: ['Machine 1', 'Machine 2', 'Machine 3', 'Machine 4'],
-      machine: [''],
-      selectedDate: null,
-      weight: ['18', '23', '35', '52'],
-      maxWeight: [],
-    }),
-  }
-  
-</script>
-
 <template>
   <div class="greetings">
       <h2 class="green">VOS PROGRES</h2>
@@ -22,12 +5,13 @@ import DatePicker from 'vue3-datepicker';
       <h3>
         Ajoutez vos activitées du jour
       </h3>
-    </div>
+      <br>
+  </div>
   <v-select
     v-model="machine"
-    :items="items"
+    :items="machines"
     label="Choisir une machine"
-  ></v-select>
+    ></v-select>
   
   <v-card class="mx-auto" max-width="700" height="500" variant="outlined">
     <v-card-item>
@@ -41,15 +25,15 @@ import DatePicker from 'vue3-datepicker';
     </div>
 
     <v-select
-      class="mx-4"
+    class="mx-4"
       v-model="maxWeight"
       :items="weight"
       label="Poid Max"
     ></v-select>
-
+    
     <v-container fluid>
       <v-textarea
-        label="Remarque"
+      label="Remarque"
       ></v-textarea>
     </v-container>
 
@@ -62,6 +46,22 @@ import DatePicker from 'vue3-datepicker';
 </template>
 
 
+<script>
+import DatePicker from 'vue3-datepicker';
+  export default {
+    components: {
+      DatePicker
+    },
+    data: () => ({
+      machines: ['Machine 1', 'Machine 2', 'Machine 3', 'Machine 4'],
+      machine: [''],
+      selectedDate: null,
+      weight: ['18', '23', '35', '52'],
+      maxWeight: [],
+    }),
+  }
+  
+</script>
 
 <style scoped>
 
