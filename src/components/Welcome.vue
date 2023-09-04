@@ -7,62 +7,67 @@
       </h3>
       <br>
   </div>
-  <v-select
-    v-model="machine"
-    :items="machines"
-    label="Choisir une machine"
-    ></v-select>
-  
-  <v-card class="mx-auto" max-width="700" height="500" variant="outlined">
-    <v-card-item>
-      <div class="text-h4 mb-1">
-        Machine 1
-      </div>
-    </v-card-item>
-
-    <div class="datePicker">
-      <date-picker v-model="selectedDate"></date-picker>
-    </div>
-
+  <div>
     <v-select
-    class="mx-4"
-      v-model="maxWeight"
-      :items="weight"
-      label="Poid Max"
+      label="Machine"
+      v-model="selectedMachine"
+      :items="machines"
     ></v-select>
-    
-    <v-container fluid>
-      <v-textarea
-      label="Remarque"
-      ></v-textarea>
-    </v-container>
-
-    <v-card-actions class="ml-2">
-      <v-btn variant="outlined">
-        Valider
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+    <v-expand-transition>
+      <v-card v-if="selectedMachine" class="mt-2">
+        <v-card-title>{{ selectedMachine }}</v-card-title>
+        <v-card-text>
+          
+          <v-select
+            label="Poids"
+            v-model="weight"
+            :items="weights"
+          ></v-select>
+          <v-textarea
+            label="Remarque"
+            v-model="note"
+          ></v-textarea>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" @click="submit">Valider</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-expand-transition>
+  </div>
 </template>
 
-
 <script>
-import DatePicker from 'vue3-datepicker';
-  export default {
-    components: {
-      DatePicker
+//import flatpickr from "vue-flatpickr";
+export default {
+  data() {
+    return {
+      machines: [
+        "Machine 1",
+        "Machine 2",
+        "Machine 3",
+      ],
+      weights: [
+        "1 kg",
+        "2 kg",
+        "3 kg",
+      ],
+      selectedMachine: null,
+      
+      weight: null,
+      note: "",
+    };
+  },
+  components: {
+    
+  },
+  methods: {
+    submit() {
+      console.log(this.selectedMachine, this.weight, this.note);
     },
-    data: () => ({
-      machines: ['Machine 1', 'Machine 2', 'Machine 3', 'Machine 4'],
-      machine: [''],
-      selectedDate: null,
-      weight: ['18', '23', '35', '52'],
-      maxWeight: [],
-    }),
-  }
-  
+  },
+};
 </script>
 
 <style scoped>
 
-</style>
+</style> 

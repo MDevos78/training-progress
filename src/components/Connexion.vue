@@ -11,7 +11,7 @@
       required
       type="password"
     ></v-text-field>
-    <v-btn color="primary" type="submit">Connexion</v-btn>
+    <v-btn color=#ff6400 type="submit">Connexion</v-btn>
     <v-btn text>Pas encore inscrit ?</v-btn>
   </v-form>
 
@@ -42,7 +42,7 @@
       label="Email"
       required
     ></v-text-field>
-    <v-btn color="primary" type="submit">Inscription</v-btn>
+    <v-btn color=#ff6400 type="submit">Inscription</v-btn>
     <v-btn text>Déjà inscrit ?</v-btn>
   </v-form>
 
@@ -54,7 +54,6 @@
 
 <script>
 import axios from 'axios';
-//qaxios.defaults.headers.post['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
 
 export default {
   data() {
