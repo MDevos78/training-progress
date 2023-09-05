@@ -1,5 +1,5 @@
 <template>
-  <v-form v-on:submit.prevent="submitConnexion">
+  <v-form v-if="!isLoggedIn && !showRegisterForm" v-on:submit.prevent="submitConnexion">
     <v-text-field
       v-model="username"
       label="Nom d'utilisateur"
@@ -12,10 +12,12 @@
       type="password"
     ></v-text-field>
     <v-btn color=#ff6400 type="submit">Connexion</v-btn>
-    <v-btn text>Pas encore inscrit ?</v-btn>
+    <br>
+    <br>
+    <v-btn text @click="toggleShowRegisterForm()">Pas encore inscrit ?</v-btn>
   </v-form>
 
-  <v-form v-if="!isLoggedIn" v-on:submit.prevent="submitRegister">
+  <v-form v-if="!isLoggedIn && showRegisterForm" v-on:submit.prevent="submitRegister">
     <v-text-field
       v-model="username"
       label="Nom d'utilisateur"
@@ -43,11 +45,14 @@
       required
     ></v-text-field>
     <v-btn color=#ff6400 type="submit">Inscription</v-btn>
-    <v-btn text>Déjà inscrit ?</v-btn>
+    <br>
+    <br>
+    <v-btn text @click="!toggleShowRegisterForm()">Déjà inscrit ?</v-btn>
   </v-form>
 
   <v-card v-if="isLoggedIn">
     <v-card-title>Bienvenue, {{ username }}</v-card-title>
+    <v-btn color=#ff6400 text @click="toggleLogout()">Déconnexion</v-btn>
   </v-card>
 </template>
 
@@ -64,9 +69,11 @@ export default {
       firstname: "",
       email: "",
       isLoggedIn: false,
+      showRegisterForm: false,
     }  
   },
   methods: {
+    
     async submitRegister() {
       // Code d'inscription
       const res = await axios.post("http://localhost:5000/api/register", {
@@ -99,8 +106,17 @@ export default {
       } else {
         alert("Le nom d'utilistateur ou le mot de passe est incorrecte")
       }
-    }
-  }
+    },
+    toggleShowRegisterForm() {
+      this.showRegisterForm = !this.showRegisterForm;
+    },
+    toggleLogout() {
+      this.isLoggedIn = !this.isLoggedIn;
+    },
+  },
+  mounted() {
+    this.showRegisterForm = false
+  },
 };
 </script>
 

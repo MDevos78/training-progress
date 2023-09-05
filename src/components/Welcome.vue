@@ -17,7 +17,7 @@
       <v-card v-if="selectedMachine" class="mt-2">
         <v-card-title>{{ selectedMachine }}</v-card-title>
         <v-card-text>
-          
+          <flat-pickr class="ml-4 mb-6 py-3" v-model="date" placeholder="Date" />
           <v-select
             label="Poids"
             v-model="weight"
@@ -37,37 +37,65 @@
 </template>
 
 <script>
-//import flatpickr from "vue-flatpickr";
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 export default {
   data() {
     return {
       machines: [
-        "Machine 1",
-        "Machine 2",
-        "Machine 3",
+        "ABDOMINAL",
+        "SEATED DIP",
+        "CHEST PRESS",
       ],
       weights: [
-        "1 kg",
-        "2 kg",
-        "3 kg",
+        "4.5 kg",
+        "9 kg",
+        "11 kg",
+        "14 kg",
+        "18 kg",
+        "23 kg",
+        "25 kg",
+        "27 kg",
+        "32 kg",
+        "36 kg",
+        "39 kg",
+        "41 kg",
+        "45 kg",
+        "50 kg",
+        "52 kg",
+        "54 kg",
+        "59 kg",
+        "64 kg",
+        "66 kg",
+        "68 kg",
+        "73 kg",
+        "77 kg",
+        "79 kg",
+        "82 kg",
+        "86 kg",
+        "91 kg",
+        "93 kg",
+        "100 kg",
+        "107 kg",
+        "113 kg"
       ],
       selectedMachine: null,
-      
+      date: null,
       weight: null,
       note: "",
     };
   },
   components: {
-    
+    flatPickr,
   },
   methods: {
     submit() {
-      console.log(this.selectedMachine, this.weight, this.note);
+      console.log(this.selectedMachine, this.date, this.weight, this.note);
     },
   },
 };
 </script>
 
 <style scoped>
-
+  
 </style> 
