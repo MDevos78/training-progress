@@ -58,7 +58,7 @@
 
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
   data() {
@@ -97,7 +97,7 @@ export default {
       const res = await axios.post("http://localhost:5000/api/login", {
         username: this.username,
         password: this.password,
-      });
+      })
 
       console.log (res.data.message)
       if (res.data.message == 'true') {

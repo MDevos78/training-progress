@@ -17,7 +17,7 @@
       <v-card v-if="selectedMachine" class="mt-2">
         <v-card-title>{{ selectedMachine }}</v-card-title>
         <v-card-text>
-          <flat-pickr class="ml-4 mb-6 py-3" v-model="date" placeholder="Date" />
+          <flat-pickr class="ml-4 mb-6 py-3" v-model="exercice_date" placeholder="Date" />
           <v-select
             label="Poids"
             v-model="weight"
@@ -25,11 +25,11 @@
           ></v-select>
           <v-textarea
             label="Remarque"
-            v-model="note"
+            v-model="remark"
           ></v-textarea>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" @click="submit">Valider</v-btn>
+          <v-btn color="primary" @click="sendData()">Valider</v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -39,6 +39,7 @@
 <script>
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -80,18 +81,41 @@ export default {
         "113 kg"
       ],
       selectedMachine: null,
-      date: null,
+      exercice_date: null,
       weight: null,
-      note: "",
+      remark: "",
     };
   },
   components: {
     flatPickr,
   },
   methods: {
-    submit() {
-      console.log(this.selectedMachine, this.date, this.weight, this.note);
-    },
+    async sendData() {   
+
+      // Envoyez les données à l'API
+      const data = [{
+            selectedMachine : this.selectedMachine,
+            exercice_date : this.exercice_date,
+            weight : this.weight,
+            remark : this.remark,
+      }]
+
+      const config = await axios.post("http://localhost:5000/api/v1/workouts", data)
+
+
+          if (config.status === 200) {
+            console.log (config.data.message)
+            if (config.data.message = 'Workout enregistré') {
+              alert("Exercice enregistré")
+              
+            } else {
+              alert("erreur d'enregistrement")
+            }
+          } else {
+            console.log (config.status)
+            alert("erreur d'envoi")
+          }
+        },
   },
 };
 </script>
