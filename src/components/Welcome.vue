@@ -92,22 +92,20 @@ export default {
   methods: {
     async sendData() {   
 
-      // Envoyez les données à l'API
-      const data = [{
-            selectedMachine : this.selectedMachine,
-            exercice_date : this.exercice_date,
-            weight : this.weight,
-            remark : this.remark,
-      }]
-
-      const config = await axios.post("http://localhost:5000/api/v1/workouts", data)
+      const config = await axios.post("http://localhost:5000/api/v1/workouts",{
+          
+          selectedMachine : this.selectedMachine,
+          exercice_date : this.exercice_date,
+          weight : this.weight,
+          remark : this.remark,
+      })
 
 
           if (config.status === 200) {
             console.log (config.data.message)
             if (config.data.message = 'Workout enregistré') {
               alert("Exercice enregistré")
-              
+              this.selectedMachine = null
             } else {
               alert("erreur d'enregistrement")
             }
