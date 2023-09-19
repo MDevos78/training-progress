@@ -60,11 +60,7 @@
     <v-card-title>Bienvenue, {{ username }}</v-card-title>
     <v-btn color=#ff6400 text @click="toggleLogout()">Déconnexion</v-btn>
   </v-card>
-  
-    <nav>
-      <RouterLink to="/">Welcome </RouterLink> 
-      <RouterLink to="/Record">Record </RouterLink> 
-    </nav>
+
   <div class="greetings">
     <h3>Ajoutez vos activitées du jour</h3>
     <br>
@@ -96,35 +92,32 @@
       </v-card>
     </v-expand-transition>
   </div>  
-  <v-app>
-    <v-btn
-      class="mx-2"
-      color="primary"
-      @click="getExercices()"
-    >
-      Afficher les exercices
-    </v-btn>
-    <table class="table table-striped" v-if="exercices.length">
+  <div>
+    <button @click="displayLastWorkouts">Afficher l'historique d'exercices</button>
+    <table v-if="workouts.length > 0">
       <thead>
         <tr>
-          <th scope="col">Machine</th>
-          <th scope="col">Poids</th>
-          <th scope="col">Date</th>
-          <th scope="col">Remarque</th>
+          <th>Machine</th>
+          <th>Date</th>
+          <th>Poids</th>
+          <th>Remarque</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="exercice in exercices" :key="exercice.id">
-          <td>{{ exercice.machine_name }}</td>
-          <td>{{ exercice.weight }}</td>
-          <td>{{ exercice.exercice_date }}</td>
-          <td>{{ exercice.remark }}</td>
+        <tr v-for="workout in workouts" :key="workout.id">
+          <td>{{ workout.selectedMachine }}</td>
+          <td>{{ workout.exercice_date }}</td>
+          <td>{{ workout.weight }}</td>
+          <td>{{ workout.remark }}</td>
         </tr>
       </tbody>
     </table>
-  </v-app>
+    <div v-else>
+      <p>Aucune donnée d'exercice disponible.</p>
+    </div>
+  </div>
   </header>
-  <RouterView />
+  
   
 </template>
 
@@ -137,19 +130,29 @@ import 'flatpickr/dist/flatpickr.css'
 export default {
   data() {
     return {
-      exercices: [],
+      workouts: [],
       username: "",
       password: "",
       name: "",
       firstname: "",
       email: "",
-      showTable: false,
+      
       isLoggedIn: false,
       showRegisterForm: false,
       machines: [
         "ABDOMINAL",
         "SEATED DIP",
         "CHEST PRESS",
+        "ROTARY TORSO",
+        "ARM CURL",
+        "CALF PRESS",
+        "SEATED ROW",
+        "LAT PULL",
+        "HIP ADDUCTION",
+        "LEG EXTENSION",
+        "SHOULDER PRESS",
+        "ABDOMINAL CRUNCH",
+        "LEG PRESS"
       ],
       weights: [
         "4.5 kg",
@@ -181,7 +184,16 @@ export default {
         "93 kg",
         "100 kg",
         "107 kg",
-        "113 kg"
+        "113 kg",
+        "120 kg",
+        "127 kg",
+        "134 kg",
+        "141 kg",
+        "147 kg",
+        "154 kg",
+        "161 kg",
+        "168 kg",
+        "175 kg",
       ],
       selectedMachine: null,
       exercice_date: null,
@@ -193,6 +205,16 @@ export default {
     flatPickr,
   },
   methods: {
+    async displayLastWorkouts() {
+     
+        // Remplacez l'URL par celle de votre API Flask
+        const res = await axios.get('http://localhost:5000/api/v1/workouts/' + this.username);
+        if (res.status === 200) {
+          this.workouts = res.data // Assurez-vous que l'API renvoie les données sous forme de tableau
+        } else {
+          alert(res.status)
+        }
+    },      
     async sendData() {  
       
       const config = await axios.post("http://localhost:5000/api/v1/workouts",{
@@ -256,16 +278,9 @@ export default {
     toggleLogout() {
       this.isLoggedIn = !this.isLoggedIn;
     },
-    getExercices () {
-      // Récupérer les exercices de l'utilisateur connecté
-      axios.get('http://localhost:5000/api/v1/workouts/history').then((response) => {
-        this.exercices = response.data
-      })
-    }
+    
   },
-  mounted () {
-    this.getExercices()
-  },
+  
 };
 </script>
 
