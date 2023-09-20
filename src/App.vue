@@ -61,7 +61,7 @@
     <v-btn color=#ff6400 text @click="toggleLogout()">Déconnexion</v-btn>
   </v-card>
 
-  <div class="greetings">
+  <div class="mt-4" >
     <h3>Ajoutez vos activitées du jour</h3>
     <br>
   </div>
@@ -72,7 +72,7 @@
       :items="machines"
     ></v-select>
     <v-expand-transition>
-      <v-card v-if="selectedMachine" class="mt-2">
+      <v-card id='expand' v-if="selectedMachine" class="mt-2">
         <v-card-title>{{ selectedMachine }}</v-card-title>
         <v-card-text>
           <flat-pickr class="ml-4 mb-6 py-3" v-model="exercice_date" placeholder="Date" />
@@ -92,21 +92,21 @@
       </v-card>
     </v-expand-transition>
   </div>  
-  <div>
-    <button @click="displayLastWorkouts">Afficher l'historique d'exercices</button>
-    <table v-if="workouts.length > 0">
+  <div class="table">
+    <button @click="displayLastWorkouts" class="mt-6">Afficher l'historique d'exercices</button>
+    <table v-if="workouts.length > 0" class="mt-2">
       <thead>
         <tr>
-          <th>Machine</th>
           <th>Date</th>
+          <th>Machine</th>
           <th>Poids</th>
           <th>Remarque</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="workout in workouts" :key="workout.id">
-          <td>{{ workout.selectedMachine }}</td>
           <td>{{ workout.exercice_date }}</td>
+          <td>{{ workout.selectedMachine }}</td>
           <td>{{ workout.weight }}</td>
           <td>{{ workout.remark }}</td>
         </tr>
@@ -136,7 +136,6 @@ export default {
       name: "",
       firstname: "",
       email: "",
-      
       isLoggedIn: false,
       showRegisterForm: false,
       machines: [
@@ -208,9 +207,15 @@ export default {
     async displayLastWorkouts() {
      
         // Remplacez l'URL par celle de votre API Flask
-        const res = await axios.get('http://localhost:5000/api/v1/workouts/' + this.username);
+        const res = await axios.get('http://localhost:5000/api/v1/workouts/' + this.username,{responseType: 'json'})
+            
         if (res.status === 200) {
-          this.workouts = res.data // Assurez-vous que l'API renvoie les données sous forme de tableau
+          this.workouts = res.data.workouts
+          for (const workout of this.workouts) {
+            // Formatez la date
+            const date = new Date(workout.exercice_date);
+            workout.exercice_date = date.toLocaleDateString();
+          }
         } else {
           alert(res.status)
         }
@@ -288,7 +293,7 @@ export default {
 header {
   line-height: 1.5;
   height: 100%;
-  width: 400px;
+  width: 600px;
 }
 h1{
   color: #ff6400;
@@ -314,8 +319,17 @@ nav a {
   color: black;
   text-decoration: none;
 }
-
-
-
-
+#expand {
+  background-color: #8ca5b6;
+}
+.table{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+table {
+  background-color: #629194;
+  width: 550px;
+}
 </style>
