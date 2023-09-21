@@ -293,13 +293,16 @@ export default {
 header {
   line-height: 1.5;
   height: 100%;
-  width: 600px;
+  width: 100%;
 }
 h1{
   color: #ff6400;
+  display: flex;
   text-align: center;
   height: 70px;
+  margin-bottom: 2rem;
 }
+
 nav {
   width: 100%;
   font-size: 20px;
@@ -327,9 +330,15 @@ nav a {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-table {
+}  
+table{
   background-color: #629194;
-  width: 550px;
+  width: 100%;
+}
+table tr th{
+  border: 1px solid black;
+}
+td{
+  border: 1px solid black;
 }
 </style>
